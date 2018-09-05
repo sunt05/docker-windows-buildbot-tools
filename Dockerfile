@@ -4,8 +4,6 @@ ARG BASE_TAG=latest_1803
 
 FROM mback2k/windows-buildbot-worker:${BASE_TAG}
 
-USER ContainerAdministrator
-
 SHELL ["powershell", "-command"]
 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
@@ -17,5 +15,3 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
     Invoke-WebRequest "http://www.jrsoftware.org/download.php/is-unicode.exe" -OutFile "C:\Windows\Temp\is-unicode.exe"; `
     Start-Process -FilePath "C:\Windows\Temp\is-unicode.exe" -ArgumentList /VERYSILENT, /NORESTART, /NOCANCEL, /SP- -NoNewWindow -PassThru -Wait; `
     Remove-Item @('C:\Windows\Temp\*', 'C:\Users\*\Appdata\Local\Temp\*') -Force -Recurse;
-
-USER Buildbot
